@@ -10,7 +10,7 @@
         <v-row dense>
             <v-col cols="12" xl="9" lg="9" md="9" sm="12" xs="12">
                 <v-card class="h-100">
-                    <v-tabs v-model="tab" show-arrows center-active>
+                    <v-tabs v-model="tab" show-arrows center-active grow>
                         <v-tab value="PlaceName">地名标识</v-tab>
                         <v-tab value="ClassificationNumber">分类编号</v-tab>
                         <v-tab value="Hiragana">平假名</v-tab>
@@ -124,9 +124,9 @@
             <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
                 <v-card class="h-100" title="生成 & 下载">
                     <v-card-item>
-                        <v-btn block color="light-blue-accent-4" variant="tonal" @click="drawPlate()">生成</v-btn>
-                        <v-btn block style="margin-top: 5px; margin-bottom: 10px;" color="success"
-                            variant="tonal">下载</v-btn>
+                        <v-btn block color="light-blue-accent-4" variant="tonal" @click="drawPlate()" :disabled="!isDrawable()">生成</v-btn>
+                        <v-btn block style="margin-top: 5px; margin-bottom: 10px;" color="success" variant="tonal"
+                            @click="downloadPlate()">下载</v-btn>
                     </v-card-item>
                 </v-card>
             </v-col>
@@ -246,6 +246,7 @@ export default {
             });
         },
         async drawPlate() {
+            if (!this.isDrawable()) return;
             const canvas = this.$refs.canvas;
             const ctx = canvas.getContext("2d");
             // 清除画布
@@ -563,6 +564,33 @@ export default {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                 }
             }
+        },
+        downloadPlate() {
+            const canvas = this.$refs.canvas;
+            const link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = "license_plate.png";
+            link.click();
+        },
+        isDrawable() {
+            if (this.selected_place === null) return false;
+            if (this.selected_classificationNumber01 === null) return false;
+            if (this.selected_classificationNumber02 === null) return false;
+            if (this.selected_classificationNumber03 === null) return false;
+            if (this.selected_hiragana === null) return false;
+            if (this.selected_vehicleNumber01 === null) return false;
+            if (this.selected_vehicleNumber02 === null) return false;
+            if (this.selected_vehicleNumber03 === null) return false;
+            if (this.selected_vehicleNumber04 === null) return false;
+            if (this.selected_operationalPurpose === null) return false;
+            if (this.selected_vehiclePurpose === null) return false;
+            if (this.selected_backlight === null) return false;
+            if (this.selected_background === null) return false;
+            return true;
+        },
+        autoDrawPlate() {
+            if (!this.isDrawable()) return;
+            this.drawPlate();
         }
     },
     watch: {
@@ -579,6 +607,26 @@ export default {
     mounted() {
         this.getVehicleNumberList();
         this.$watch(() => [this.selected_vehicleNumber01, this.selected_vehicleNumber02, this.selected_vehicleNumber03, this.selected_vehicleNumber04], () => { this.getVehicleNumberList(); },
+        );
+        this.$watch(
+            () => [
+                this.selected_place,
+                this.selected_classificationNumber01,
+                this.selected_classificationNumber02,
+                this.selected_classificationNumber03,
+                this.selected_hiragana,
+                this.selected_vehicleNumber01,
+                this.selected_vehicleNumber02,
+                this.selected_vehicleNumber03,
+                this.selected_vehicleNumber04,
+                this.selected_operationalPurpose,
+                this.selected_vehiclePurpose,
+                this.selected_backlight,
+                this.selected_background
+            ],
+            () => {
+                this.autoDrawPlate();
+            }
         );
     }
 }
