@@ -126,7 +126,7 @@
                     <v-card-item>
                         <v-btn block color="light-blue-accent-4" variant="tonal" @click="drawPlate()" :disabled="!isDrawable()">生成</v-btn>
                         <v-btn block style="margin-top: 5px; margin-bottom: 10px;" color="success" variant="tonal"
-                            @click="downloadPlate()">下载</v-btn>
+                            @click="downloadPlate()" :disabled="!isDrawable()">下载</v-btn>
                     </v-card-item>
                 </v-card>
             </v-col>
