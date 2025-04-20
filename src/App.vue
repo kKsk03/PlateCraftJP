@@ -7,7 +7,9 @@
                     style="color: #de4f7a; text-decoration: underline;" target="blank">GNU General Public License
                     v3.0</a>.</p>
             <p class="copyright">Copyright &copy; 2023-Present <a href="https://github.com/kKsk03"
-                    style="color: #de4f7a; text-decoration: underline;" target="blank">kKsk03</a></p>
+                    style="color: #de4f7a; text-decoration: underline;" target="blank">kKsk03</a> | Source Code: <a
+                    href="https://github.com/kKsk03/PlateCraftJP" style="color: #de4f7a; text-decoration: underline;"
+                    target="blank">GitHub</a></p>
         </div>
     </footer>
 </template>
