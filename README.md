@@ -10,4 +10,4 @@ For personal study, research and communication only, and commercial use is stric
 前往网页直接使用即可！  
 Just go to the website and use it directly!  
 
-[PlateCraftJP](https://github.com/kKsk03/PlateCraftJP)  
+[PlateCraftJP](https://platecraftjp.kksk03.site/)  
