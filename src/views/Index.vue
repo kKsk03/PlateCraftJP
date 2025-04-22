@@ -135,7 +135,8 @@
                                                     value="RentalCar"></v-radio>
                                                 <v-radio
                                                     :label="$t('tabItem.settings.vehiclePurpose.USMilitaryPersonnel')"
-                                                    value="USMilitaryPersonnel"></v-radio>
+                                                    value="USMilitaryPersonnel"
+                                                    :disabled="selected_operationalPurpose === 1 || selected_operationalPurpose === 3"></v-radio>
                                             </v-radio-group>
                                         </v-col>
                                         <v-col>
@@ -637,6 +638,10 @@ export default {
             this.selected_hiragana = null;
             if (this.selected_operationalPurpose === 3) {
                 this.selected_backlight = false;
+            }
+            // 如果当前选中的是驻留军人并且用户切换到了轻自动车，则重新归位
+            if (this.selected_operationalPurpose === 1 || this.selected_operationalPurpose === 3) {
+                this.selected_vehiclePurpose = 'none';
             }
         },
         selected_vehiclePurpose() {
