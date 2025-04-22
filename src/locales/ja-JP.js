@@ -47,5 +47,5 @@ export default {
     generateAndDownload: "生成してダウンロード",
     generate: "生成",
     download: "ダウンロード",
-    disclaimerMessage: "個人的な学習、研究、コミュニケーションのみに使用し、商業目的で使用は固く禁じられています"
+    disclaimerMessage: "個人的な学習、研究、コミュニケーションのみに使用し、商業目的で使用は固く禁止られています"
 }
