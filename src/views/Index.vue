@@ -1,6 +1,19 @@
 <template>
     <v-container max-width="1000px" class="mt-5 mb-5" style="margin-top: 40px; margin-bottom: 40px;">
-        <h1>PlateCraftJP<v-app-bar-nav-icon @click="toggleTheme()" icon="mdi-theme-light-dark" /></h1>
+        <h1>PlateCraftJP
+            <v-app-bar-nav-icon @click="toggleTheme()" icon="mdi-theme-light-dark" />
+            <v-menu>
+                <template v-slot:activator="{ props }">
+                    <v-app-bar-nav-icon icon="mdi-translate" v-bind="props" />
+                </template>
+                <v-list>
+                    <v-list-item v-for="(item, index) in locales" :key="index" :value="item.value"
+                        @click="onChangeLang(item.value)">
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
+        </h1>
         <!-- 预览框 -->
         <div class="preview" style="margin-top: 20px; margin-bottom: 20px;">
             <canvas ref="canvas" width="1632" height="816" style="width: 100%; height: auto; max-width: 1000px">
@@ -11,107 +24,126 @@
             <v-col cols="12" xl="9" lg="9" md="9" sm="12" xs="12">
                 <v-card class="h-100">
                     <v-tabs v-model="tab" show-arrows center-active grow>
-                        <v-tab value="PlaceName">地名标识</v-tab>
-                        <v-tab value="ClassificationNumber">分类编号</v-tab>
-                        <v-tab value="Hiragana">平假名</v-tab>
-                        <v-tab value="VehicleNumber">车辆编号</v-tab>
-                        <v-tab value="Settings">设定</v-tab>
+                        <v-tab value="PlaceName">{{ $t('tab.placeName') }}</v-tab>
+                        <v-tab value="ClassificationNumber">{{ $t('tab.classificationNumber') }}</v-tab>
+                        <v-tab value="Hiragana">{{ $t('tab.hiragana') }}</v-tab>
+                        <v-tab value="VehicleNumber">{{ $t('tab.vehicleNumber') }}</v-tab>
+                        <v-tab value="Settings">{{ $t('tab.settings') }}</v-tab>
                     </v-tabs>
                     <v-card-text style="padding-left: 0; padding-right: 0; padding-bottom: 0;">
                         <v-tabs-window v-model="tab">
                             <!-- 地名标识 -->
                             <v-tabs-window-item value="PlaceName">
-                                <v-card-subtitle>地名标识规则：<a
+                                <v-card-subtitle>{{ $t('tabItem.placeName.rule') }}<a
                                         href="https://zh.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E8%BB%8A%E8%BC%9B%E8%99%9F%E7%89%8C#%E5%9C%B0%E5%90%8D"
-                                        target="_blank" class="card-link">详解与一览</a></v-card-subtitle>
+                                        target="_blank" class="card-link">{{ $t('tabItem.placeName.ruleLinkName')
+                                        }}</a></v-card-subtitle>
                                 <v-card-item>
                                     <v-row dense style="margin-top: 5px;">
                                         <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
-                                            <v-select label="都道府县" :items="prefectureList" v-model="selected_prefecture"
-                                                item-title="title" item-value="value" />
+                                            <v-select :label="$t('tabItem.placeName.prefecture')"
+                                                :items="prefectureList" v-model="selected_prefecture" item-title="title"
+                                                item-value="value" />
                                         </v-col>
                                         <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
-                                            <v-select label="地名标识" :items="getPlaceList(selected_prefecture) || []"
-                                                item-title="placeName" item-value="pngId"
-                                                :disabled="!selected_prefecture" v-model="selected_place" />
+                                            <v-select :label="$t('tabItem.placeName.placeName')"
+                                                :items="getPlaceList(selected_prefecture) || []" item-title="placeName"
+                                                item-value="pngId" :disabled="!selected_prefecture"
+                                                v-model="selected_place" />
                                         </v-col>
                                     </v-row>
                                 </v-card-item>
                             </v-tabs-window-item>
                             <!-- 分类编号 -->
                             <v-tabs-window-item value="ClassificationNumber">
-                                <v-card-subtitle>地名标识规则：<a
+                                <v-card-subtitle>{{ $t('tabItem.classificationNumber.rule') }}<a
                                         href="https://zh.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E8%BB%8A%E8%BC%9B%E8%99%9F%E7%89%8C#%E5%88%86%E9%A1%9E%E7%B7%A8%E8%99%9F"
-                                        target="_blank" class="card-link">详解与一览</a></v-card-subtitle>
+                                        target="_blank" class="card-link">{{
+                                            $t('tabItem.classificationNumber.ruleLinkName') }}</a></v-card-subtitle>
                                 <v-card-item>
                                     <v-row dense style="margin-top: 5px;">
                                         <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
-                                            <v-select label="第 1 位" :items="getClassificationNumberList(1) || []"
+                                            <v-select :label="$t('tabItem.classificationNumber.number1')"
+                                                :items="getClassificationNumberList(1) || []"
                                                 v-model="selected_classificationNumber01" clearable />
                                         </v-col>
                                         <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
-                                            <v-select label="第 2 位" :items="getClassificationNumberList(2) || []"
+                                            <v-select :label="$t('tabItem.classificationNumber.number2')"
+                                                :items="getClassificationNumberList(2) || []"
                                                 v-model="selected_classificationNumber02" clearable />
                                         </v-col>
                                         <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
-                                            <v-select label="第 3 位" :items="getClassificationNumberList(3) || []"
+                                            <v-select :label="$t('tabItem.classificationNumber.number3')"
+                                                :items="getClassificationNumberList(3) || []"
                                                 v-model="selected_classificationNumber03" clearable />
                                         </v-col>
                                     </v-row>
                                 </v-card-item>
                             </v-tabs-window-item>
                             <v-tabs-window-item value="Hiragana">
-                                <v-card-subtitle>平假名规则：<a
+                                <v-card-subtitle>{{ $t('tabItem.hiragana.rule') }}<a
                                         href="https://zh.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E8%BB%8A%E8%BC%9B%E8%99%9F%E7%89%8C#%E5%B9%B3%E5%81%87%E5%90%8D"
-                                        target="_blank" class="card-link">详解与一览</a></v-card-subtitle>
+                                        target="_blank" class="card-link">{{ $t('tabItem.hiragana.ruleLinkName')
+                                        }}</a></v-card-subtitle>
                                 <v-card-item>
-                                    <v-select label="平假名"
+                                    <v-select :label="$t('tabItem.hiragana.hiragana')"
                                         :items="getHiraganaList(selected_operationalPurpose, selected_vehiclePurpose)"
                                         style="margin-top: 5px;" v-model="selected_hiragana" />
                                 </v-card-item>
                             </v-tabs-window-item>
                             <v-tabs-window-item value="VehicleNumber">
-                                <v-card-subtitle>车辆编号规则：<a
+                                <v-card-subtitle>{{ $t('tabItem.vehicleNumber.rule') }}<a
                                         href="https://zh.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E8%BB%8A%E8%BC%9B%E8%99%9F%E7%89%8C#%E8%BB%8A%E8%BC%9B%E7%B7%A8%E8%99%9F"
-                                        target="_blank" class="card-link">详解与一览</a></v-card-subtitle>
+                                        target="_blank" class="card-link">{{ $t('tabItem.vehicleNumber.ruleLinkName')
+                                        }}</a></v-card-subtitle>
                                 <v-card-item>
                                     <v-row dense style="margin-top: 5px;">
                                         <v-col cols="12" xl="3" lg="3" md="3" sm="3" xs="12">
-                                            <v-select label="第 1 位" :items="vehicleNumberList01"
-                                                v-model="selected_vehicleNumber01" clearable />
+                                            <v-select :label="$t('tabItem.vehicleNumber.number1')"
+                                                :items="vehicleNumberList01" v-model="selected_vehicleNumber01"
+                                                clearable />
                                         </v-col>
                                         <v-col cols="12" xl="3" lg="3" md="3" sm="3" xs="12">
-                                            <v-select label="第 2 位" :items="vehicleNumberList02"
-                                                v-model="selected_vehicleNumber02" clearable />
+                                            <v-select :label="$t('tabItem.vehicleNumber.number2')"
+                                                :items="vehicleNumberList02" v-model="selected_vehicleNumber02"
+                                                clearable />
                                         </v-col>
                                         <v-col cols="12" xl="3" lg="3" md="3" sm="3" xs="12">
-                                            <v-select label="第 3 位" :items="vehicleNumberList03"
-                                                v-model="selected_vehicleNumber03" clearable />
+                                            <v-select :label="$t('tabItem.vehicleNumber.number3')"
+                                                :items="vehicleNumberList03" v-model="selected_vehicleNumber03"
+                                                clearable />
                                         </v-col>
                                         <v-col cols="12" xl="3" lg="3" md="3" sm="3" xs="12">
-                                            <v-select label="第 4 位" :items="vehicleNumberList04"
-                                                v-model="selected_vehicleNumber04" clearable />
+                                            <v-select :label="$t('tabItem.vehicleNumber.number4')"
+                                                :items="vehicleNumberList04" v-model="selected_vehicleNumber04"
+                                                clearable />
                                         </v-col>
                                     </v-row>
                                 </v-card-item>
                             </v-tabs-window-item>
                             <v-tabs-window-item value="Settings">
                                 <v-card-item>
-                                    <v-select label="营运用途" :items="operationalPurpose" style="margin-top: 5px;"
+                                    <v-select :label="$t('tabItem.settings.operationalPurpose')"
+                                        :items="operationalPurpose" style="margin-top: 5px;"
                                         v-model="selected_operationalPurpose" item-title="title" item-value="value" />
                                     <v-row dense>
                                         <v-col>
                                             <v-radio-group v-model="selected_vehiclePurpose">
-                                                <v-radio label="普通车辆" value="none"></v-radio>
-                                                <v-radio label="租赁车辆" value="RentalCar"></v-radio>
-                                                <v-radio label="驻留军人用" value="USMilitaryPersonnel"></v-radio>
+                                                <v-radio :label="$t('tabItem.settings.vehiclePurpose.none')"
+                                                    value="none"></v-radio>
+                                                <v-radio :label="$t('tabItem.settings.vehiclePurpose.rentalCar')"
+                                                    value="RentalCar"></v-radio>
+                                                <v-radio
+                                                    :label="$t('tabItem.settings.vehiclePurpose.USMilitaryPersonnel')"
+                                                    value="USMilitaryPersonnel"></v-radio>
                                             </v-radio-group>
                                         </v-col>
                                         <v-col>
-                                            <v-checkbox density="compact" hide-details label="背光"
-                                                v-model="selected_backlight"
+                                            <v-checkbox density="compact" hide-details
+                                                :label="$t('tabItem.settings.backLight')" v-model="selected_backlight"
                                                 :disabled="selected_operationalPurpose === 3"></v-checkbox>
-                                            <v-checkbox density="compact" hide-details label="号牌背景"
+                                            <v-checkbox density="compact" hide-details
+                                                :label="$t('tabItem.settings.background')"
                                                 v-model="selected_background"></v-checkbox>
                                         </v-col>
                                     </v-row>
@@ -122,11 +154,12 @@
                 </v-card>
             </v-col>
             <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
-                <v-card class="h-100" title="生成 & 下载">
+                <v-card class="h-100" :title="$t('generateAndDownload')">
                     <v-card-item>
-                        <v-btn block color="light-blue-accent-4" variant="tonal" @click="drawPlate()" :disabled="!isDrawable()">生成</v-btn>
+                        <v-btn block color="light-blue-accent-4" variant="tonal" @click="drawPlate()"
+                            :disabled="!isDrawable()">{{ $t('generate') }}</v-btn>
                         <v-btn block style="margin-top: 5px; margin-bottom: 10px;" color="success" variant="tonal"
-                            @click="downloadPlate()" :disabled="!isDrawable()">下载</v-btn>
+                            @click="downloadPlate()" :disabled="!isDrawable()">{{ $t('download') }}</v-btn>
                     </v-card-item>
                 </v-card>
             </v-col>
@@ -140,6 +173,7 @@ import { useTheme } from 'vuetify';
 import * as plateList from "../assets/placeList.js";
 import * as list from "../assets/list.js";
 import { Toast } from '@/assets/toast.js';
+import * as locales from "../locales/list.js";
 
 export default {
     setup() {
@@ -167,6 +201,7 @@ export default {
     data() {
         return {
             tab: 'PlaceName',
+            locales: locales.locales,
             // 数据
             prefectureList: plateList.prefectureList,
             operationalPurpose: list.operationalPurpose,
@@ -591,6 +626,10 @@ export default {
         autoDrawPlate() {
             if (!this.isDrawable()) return;
             this.drawPlate();
+        },
+        onChangeLang(lang) {
+            this.$i18n.locale = lang;
+            localStorage.setItem('lang', lang);
         }
     },
     watch: {
@@ -605,6 +644,8 @@ export default {
         }
     },
     mounted() {
+        const lang = localStorage.getItem('lang');
+        this.$i18n.locale = lang && lang !== 'undefined' ? lang : 'zh-CN';
         this.getVehicleNumberList();
         this.$watch(() => [this.selected_vehicleNumber01, this.selected_vehicleNumber02, this.selected_vehicleNumber03, this.selected_vehicleNumber04], () => { this.getVehicleNumberList(); },
         );

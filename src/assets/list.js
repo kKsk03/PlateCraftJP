@@ -32,10 +32,10 @@ export function getClassificationNumberList(position) {
 }
 
 export const operationalPurpose = [
-    { title: "自家用（自动车）", value: 0 },
-    { title: "自家用（轻自动车）", value: 1 },
-    { title: "事业用（自动车）", value: 2 },
-    { title: "事业用（轻自动车）", value: 3 }
+    { title: "自家用（自動車）", value: 0 },
+    { title: "自家用（軽自動車）", value: 1 },
+    { title: "事業用（自動车）", value: 2 },
+    { title: "事業用（軽自動車）", value: 3 }
 ]
 
 export function getHiraganaList(operationalPurpose, vehiclePurpose) {
