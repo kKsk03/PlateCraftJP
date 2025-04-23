@@ -10,7 +10,7 @@ export default {
         placeName: {
             rule: "地名のルール：",
             ruleLinkName: "詳細な説明と概要",
-            prefecture: "都道府縣",
+            prefecture: "都道府県",
             placeName: "地名"
         },
         classificationNumber: {
