@@ -14,6 +14,30 @@
     </footer>
 </template>
 
+<script setup>
+import { useTheme } from 'vuetify';
+import { useI18n } from 'vue-i18n'
+import * as locales from "./locales/list.js";
+
+// 自动设置主题
+const theme = useTheme();
+const currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+theme.global.name.value = currentTheme;
+localStorage.setItem('theme', currentTheme);
+
+// 设置语言逻辑
+const { locale } = useI18n()
+const userLang = navigator.language || navigator.userLanguage
+const supportedLangs = locales.locales.map(locale => locale.value)
+const matchedLang = supportedLangs.includes(userLang)
+  ? userLang
+  : supportedLangs.find(lang => userLang.startsWith(lang.split('-')[0])) || 'en-US'
+
+const currentSetLang = localStorage.getItem('lang') || matchedLang
+locale.value = currentSetLang
+localStorage.setItem('lang', currentSetLang)
+</script>
+
 <style scoped>
 .message,
 .copyright {

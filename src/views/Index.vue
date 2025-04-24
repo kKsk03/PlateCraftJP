@@ -649,8 +649,6 @@ export default {
         }
     },
     mounted() {
-        const lang = localStorage.getItem('lang');
-        this.$i18n.locale = lang && lang !== 'undefined' ? lang : 'zh-CN';
         this.getVehicleNumberList();
         this.$watch(() => [this.selected_vehicleNumber01, this.selected_vehicleNumber02, this.selected_vehicleNumber03, this.selected_vehicleNumber04], () => { this.getVehicleNumberList(); },
         );
