@@ -648,6 +648,9 @@ export default {
         },
         selected_vehiclePurpose() {
             this.selected_hiragana = null;
+        },
+        selected_prefecture() {
+            this.selected_place = null;
         }
     },
     mounted() {
