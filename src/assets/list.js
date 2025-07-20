@@ -102,9 +102,16 @@ export function getHiraganaList(operationalPurpose, vehiclePurpose) {
         }
         // 如果是驻留军人
         else if (vehiclePurpose === "USMilitaryPersonnel") {
-            // 其实原本很多的，但是素材只有Y
             return [
+                { title: "A", value: "A" },
+                { title: "B", value: "B" },
+                { title: "E", value: "E" },
+                { title: "H", value: "H" },
+                { title: "K", value: "K" },
+                { title: "M", value: "M" },
+                { title: "T", value: "T" },
                 { title: "Y", value: "Y" },
+                { title: "よ", value: "よ" },
             ]
         } else {
             return [];
@@ -173,8 +180,11 @@ export function getHiraganaList(operationalPurpose, vehiclePurpose) {
         }
         // 如果是驻留军人
         else if (vehiclePurpose === "USMilitaryPersonnel") {
-            // 轻自动车的驻留军人，本身有素材，但是问题是不包含Y
-            return [];
+            // 轻自动车的驻留军人
+            return [
+                { title: "A", value: "A" },
+                { title: "B", value: "B" }
+            ];
         } else {
             return [];
         }

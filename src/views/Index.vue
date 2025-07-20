@@ -459,7 +459,7 @@ export default {
                     characterImage.onload = () => {
                         // 计算字符参数
                         const charWidth = 2296 / 7; // 每字宽度
-                        const charHeight = 1968 / 6; // 每字高度
+                        const charHeight = 2624 / 8; // 每字高度
                         // 平假名字符到索引的映射
                         const hiraganaMap = [
                             'あ', 'い', 'う', 'え', 'か', 'き', 'く',
@@ -467,7 +467,9 @@ export default {
                             'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ',
                             'ね', 'の', 'は', 'ひ', 'ふ', 'ほ', 'ま',
                             'み', 'む', 'め', 'も', 'や', 'ゆ', 'ら',
-                            'り', 'る', 'れ', 'ろ', 'わ', 'を', 'Y'
+                            'り', 'る', 'れ', 'ろ', 'わ', 'を', 'Y',
+                            'よ', 'A', 'B', 'E', 'H', 'K', 'M',
+                            'T'
                         ];
                         // 获取选中的平假名字符的索引
                         const index = hiraganaMap.indexOf(this.selected_hiragana);
