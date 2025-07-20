@@ -8,7 +8,8 @@ const placeList = [{
         { pngId: 6, placeName: "釧路" },
         { pngId: 7, placeName: "知床" },
         { pngId: 8, placeName: "帯広" },
-        { pngId: 9, placeName: "北見" }
+        { pngId: 9, placeName: "北見" },
+        { pngId: 134, placeName: "十勝" }
     ],
     "青森県": [
         { pngId: 10, placeName: "青森" },
@@ -46,7 +47,8 @@ const placeList = [{
     "栃木県": [
         { pngId: 29, placeName: "宇都宮" },
         { pngId: 30, placeName: "那須" },
-        { pngId: 31, placeName: "とちぎ" }
+        { pngId: 31, placeName: "とちぎ" },
+        { pngId: 135, placeName: "日光" }
     ],
     "群马県": [
         { pngId: 32, placeName: "群馬" },
@@ -84,7 +86,8 @@ const placeList = [{
         { pngId: 58, placeName: "江東" },
         { pngId: 59, placeName: "葛飾" },
         { pngId: 60, placeName: "八王子" },
-        { pngId: 61, placeName: "多摩" }
+        { pngId: 61, placeName: "多摩" },
+        { pngId: 136, placeName: "江戸川" }
     ],
     "神奈川県": [
         { pngId: 62, placeName: "横浜" },
@@ -104,7 +107,9 @@ const placeList = [{
     "长野県": [
         { pngId: 71, placeName: "長野" },
         { pngId: 72, placeName: "松本" },
-        { pngId: 73, placeName: "諏訪" }
+        { pngId: 73, placeName: "諏訪" },
+        { pngId: 137, placeName: "安曇野" },
+        { pngId: 138, placeName: "南信州" }
     ],
     "富山県": [
         { pngId: 74, placeName: "富山" }
